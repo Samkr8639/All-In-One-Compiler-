@@ -102,6 +102,15 @@ export class JsEditorComponent implements AfterViewInit, OnDestroy {
     }
   });
 
+  private readonly syncTheme = effect(() => {
+    const isDark = this.themeService.isDark();
+    if (this.editor) {
+      import('monaco-editor').then(monaco => {
+        monaco.editor.setTheme(isDark ? 'vs-dark' : 'vs');
+      });
+    }
+  });
+
   updateCode(code: string): void {
     if (this.editor && this.editor.getValue() !== code) {
       this.editor.setValue(code);
