@@ -6,10 +6,12 @@ import { Component, input, effect, ViewChild, ElementRef } from '@angular/core';
   template: `
     <div class="preview-wrapper">
       <div class="preview-header">
-        <span class="preview-dot red"></span>
-        <span class="preview-dot yellow"></span>
-        <span class="preview-dot green"></span>
-        <span class="preview-title">Preview</span>
+        <div class="window-dots">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <span class="preview-label">Preview</span>
       </div>
       <iframe
         #previewIframe
@@ -22,40 +24,49 @@ import { Component, input, effect, ViewChild, ElementRef } from '@angular/core';
   `,
   styles: [
     `
-      :host {
-        display: block;
-        height: 100%;
-      }
+      :host { display: block; height: 100%; }
+
       .preview-wrapper {
         display: flex;
         flex-direction: column;
         height: 100%;
-        background: var(--surface-1);
+        background: var(--surface-0);
       }
+
       .preview-header {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 10px;
         padding: 8px 14px;
         background: var(--surface-0);
         border-bottom: 1px solid var(--border-color);
         flex-shrink: 0;
+        height: 36px;
       }
-      .preview-dot {
-        width: 10px;
-        height: 10px;
+
+      .window-dots {
+        display: flex;
+        gap: 5px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
+        opacity: 0.8;
       }
-      .preview-dot.red { background: #ff5f57; }
-      .preview-dot.yellow { background: #ffbd2e; }
-      .preview-dot.green { background: #28c840; }
-      .preview-title {
-        margin-left: 8px;
-        font-size: 0.8rem;
+      .dot.red { background: #ff5f57; }
+      .dot.yellow { background: #febc2e; }
+      .dot.green { background: #28c840; }
+
+      .preview-label {
+        font-size: 0.75rem;
         font-weight: 500;
-        color: var(--text-secondary);
+        color: var(--text-muted);
         letter-spacing: 0.02em;
+        text-transform: uppercase;
       }
+
       .preview-iframe {
         flex: 1;
         width: 100%;

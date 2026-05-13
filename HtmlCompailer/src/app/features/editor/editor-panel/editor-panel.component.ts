@@ -23,7 +23,8 @@ import { EditorTab } from '../../../shared/models/editor-state.model';
           (click)="activeTab.set('html')"
           id="tab-html"
         >
-          <span class="tab-icon">&#x2756;</span> HTML
+          <span class="tab-dot html-dot"></span>
+          HTML
         </button>
         <button
           class="tab"
@@ -31,7 +32,8 @@ import { EditorTab } from '../../../shared/models/editor-state.model';
           (click)="activeTab.set('css')"
           id="tab-css"
         >
-          <span class="tab-icon">&#x2756;</span> CSS
+          <span class="tab-dot css-dot"></span>
+          CSS
         </button>
         <button
           class="tab"
@@ -39,78 +41,83 @@ import { EditorTab } from '../../../shared/models/editor-state.model';
           (click)="activeTab.set('javascript')"
           id="tab-js"
         >
-          <span class="tab-icon">&#x2756;</span> JS
+          <span class="tab-dot js-dot"></span>
+          JS
         </button>
       </div>
       <div class="editor-content">
         <ng-container *ngIf="activeTab() === 'html'">
-          <app-html-editor
-            [code]="htmlCode()"
-            (codeChange)="onHtmlChange($event)"
-          />
+          <app-html-editor [code]="htmlCode()" (codeChange)="onHtmlChange($event)" />
         </ng-container>
         <ng-container *ngIf="activeTab() === 'css'">
-          <app-css-editor
-            [code]="cssCode()"
-            (codeChange)="onCssChange($event)"
-          />
+          <app-css-editor [code]="cssCode()" (codeChange)="onCssChange($event)" />
         </ng-container>
         <ng-container *ngIf="activeTab() === 'javascript'">
-          <app-js-editor
-            [code]="jsCode()"
-            (codeChange)="onJsChange($event)"
-          />
+          <app-js-editor [code]="jsCode()" (codeChange)="onJsChange($event)" />
         </ng-container>
       </div>
     </div>
   `,
   styles: [
     `
-      :host {
-        display: block;
-        height: 100%;
-      }
+      :host { display: block; height: 100%; }
+
       .editor-panel {
         display: flex;
         flex-direction: column;
         height: 100%;
-        background: var(--surface-1);
+        background: var(--surface-0);
       }
+
       .tab-bar {
         display: flex;
         gap: 0;
         background: var(--surface-0);
         border-bottom: 1px solid var(--border-color);
-        padding: 0;
+        padding: 0 8px;
         flex-shrink: 0;
+        height: 36px;
       }
+
       .tab {
-        padding: 10px 20px;
+        padding: 0 14px;
         border: none;
         background: transparent;
         color: var(--text-secondary);
-        font-size: 0.85rem;
+        font-size: 0.78rem;
         font-weight: 500;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all var(--transition-fast);
         border-bottom: 2px solid transparent;
         font-family: inherit;
         display: flex;
         align-items: center;
         gap: 6px;
+        letter-spacing: 0.01em;
       }
+
       .tab:hover {
         color: var(--text-primary);
-        background: var(--surface-hover);
       }
+
       .tab.active {
-        color: var(--accent);
+        color: var(--text-primary);
         border-bottom-color: var(--accent);
-        background: var(--surface-1);
       }
-      .tab-icon {
-        font-size: 0.7rem;
+
+      .tab-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        opacity: 0.7;
       }
+
+      .html-dot { background: #f97316; }
+      .css-dot { background: #3b82f6; }
+      .js-dot { background: #eab308; }
+
+      .tab.active .tab-dot { opacity: 1; }
+
       .editor-content {
         flex: 1;
         overflow: hidden;
@@ -129,15 +136,7 @@ export class EditorPanelComponent {
 
   activeTab = signal<EditorTab>('html');
 
-  onHtmlChange(code: string): void {
-    this.htmlChange.emit(code);
-  }
-
-  onCssChange(code: string): void {
-    this.cssChange.emit(code);
-  }
-
-  onJsChange(code: string): void {
-    this.jsChange.emit(code);
-  }
+  onHtmlChange(code: string): void { this.htmlChange.emit(code); }
+  onCssChange(code: string): void { this.cssChange.emit(code); }
+  onJsChange(code: string): void { this.jsChange.emit(code); }
 }
