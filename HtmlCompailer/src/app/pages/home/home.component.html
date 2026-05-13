@@ -1,0 +1,82 @@
+<!-- Toolbar -->
+<header class="toolbar">
+  <div class="toolbar-left">
+    <a class="brand" routerLink="/" id="brand-logo">
+      <lucide-icon [img]="CodeIcon" class="brand-icon"></lucide-icon>
+      <span class="brand-name">CodeCanvas</span>
+    </a>
+  </div>
+
+  <div class="toolbar-center">
+    <button class="tool-btn run-btn" (click)="runCode()" id="run-btn" title="Run Code">
+      <lucide-icon [img]="PlayIcon" [size]="14"></lucide-icon>
+      Run
+    </button>
+
+    <label class="auto-run-toggle" id="auto-run-toggle">
+      <input type="checkbox" [checked]="autoRun()" (change)="autoRun.set(!autoRun())" />
+      <span class="toggle-slider"></span>
+      <span class="toggle-label">Auto</span>
+    </label>
+
+    <button class="tool-btn" (click)="clearCode()" id="clear-btn" title="Clear All">
+      <lucide-icon [img]="Trash2Icon" [size]="14"></lucide-icon>
+      Clear
+    </button>
+
+    <div class="template-dropdown" id="template-dropdown">
+      <button class="tool-btn" id="template-btn">
+        <lucide-icon [img]="Grid3X3Icon" [size]="14"></lucide-icon>
+        Templates
+      </button>
+      <div class="dropdown-menu">
+        @for (t of templates; track t.slug) {
+          <button class="dropdown-item" (click)="loadTemplate(t)">
+            <strong>{{ t.name }}</strong>
+            <small>{{ t.category }}</small>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar-right">
+    <button class="tool-btn" (click)="toggleConsole()" id="toggle-console-btn" title="Toggle Console">
+      <lucide-icon [img]="ChevronRightIcon" [size]="14"></lucide-icon>
+    </button>
+    <button class="tool-btn" (click)="downloadCode()" id="download-btn" title="Download HTML">
+      <lucide-icon [img]="DownloadIcon" [size]="14"></lucide-icon>
+    </button>
+    <button class="tool-btn theme-btn" (click)="toggleTheme()" id="theme-toggle-btn" title="Toggle Theme">
+      <lucide-icon [img]="isDark ? SunIcon : MoonIcon" [size]="20"></lucide-icon>
+    </button>
+  </div>
+</header>
+
+<!-- IDE Layout -->
+<main class="ide-layout">
+  <as-split direction="horizontal" gutterSize="8" (dragEnd)="onDragEnd()">
+    <as-split-area [size]="50" class="editor-side">
+      <app-editor-panel
+        [htmlCode]="htmlCode()"
+        [cssCode]="cssCode()"
+        [jsCode]="jsCode()"
+        (htmlChange)="onHtmlChange($event)"
+        (cssChange)="onCssChange($event)"
+        (jsChange)="onJsChange($event)"
+      />
+    </as-split-area>
+    <as-split-area [size]="50" class="preview-side">
+      <as-split direction="vertical" gutterSize="6">
+        <as-split-area [size]="70">
+          <app-preview-frame [srcdoc]="compiledOutput()" />
+        </as-split-area>
+        @if (showConsole()) {
+          <as-split-area [size]="30" class="console-area">
+            <app-output-console />
+          </as-split-area>
+        }
+      </as-split>
+    </as-split-area>
+  </as-split>
+</main>
