@@ -59,10 +59,159 @@ export class HomeComponent implements OnInit, OnDestroy {
   isRunning = signal<boolean>(false);
 
   // --- Web Mode State ---
-  htmlCode = signal('<h1>Hello, World! 🌍</h1>\n<p>Start coding in CodeCanvas</p>\n<button id="btn">Click me</button>\n<p id="output"></p>');
-  cssCode = signal('* { margin: 0; padding: 0; box-sizing: border-box; }\nbody {\n  font-family: "Inter", sans-serif;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  min-height: 100vh;\n  background: linear-gradient(135deg, #667eea, #764ba2);\n  color: #fff;\n  text-align: center;\n}\nh1 { font-size: 3rem; margin-bottom: 1rem; }\np { font-size: 1.2rem; margin-bottom: 1rem; }\nbutton {\n  padding: 12px 32px;\n  font-size: 1rem;\n  border: none;\n  border-radius: 8px;\n  background: #fff;\n  color: #764ba2;\n  cursor: pointer;\n  font-weight: 600;\n  transition: transform 0.2s;\n}\nbutton:hover { transform: scale(1.05); }');
-  jsCode = signal('document.getElementById("btn").addEventListener("click", function() {\n  document.getElementById("output").textContent = "You clicked the button! 🎉";\n  console.log("Button clicked!");\n});');
-  
+  htmlCode = signal(`
+<header class="navbar">
+  <div class="logo">CodeCanvas</div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Features</a>
+    <a href="#">Docs</a>
+    <a href="#">Pricing</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Build & Test Code Instantly</h1>
+  <p>CodeCanvas is a lightweight playground to write, preview and share HTML, CSS and JavaScript in real time.</p>
+  <button id="startBtn">Start Coding</button>
+</section>
+
+<section class="features">
+  <div class="card">
+    <h3>⚡ Live Preview</h3>
+    <p>See changes instantly as you code without refreshing.</p>
+  </div>
+
+  <div class="card">
+    <h3>🎨 Beautiful UI</h3>
+    <p>Modern editor experience designed for developers.</p>
+  </div>
+
+  <div class="card">
+    <h3>🚀 Fast & Lightweight</h3>
+    <p>Optimized playground that loads instantly.</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 CodeCanvas • Built for Developers</p>
+</footer>
+`);
+  cssCode = signal(`
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family: "Inter", sans-serif;
+  background:#0f172a;
+  color:white;
+}
+
+/* Navbar */
+
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 10%;
+  background:#020617;
+}
+
+.logo{
+  font-weight:700;
+  font-size:20px;
+}
+
+nav a{
+  margin-left:20px;
+  text-decoration:none;
+  color:#cbd5f5;
+}
+
+nav a:hover{
+  color:white;
+}
+
+/* Hero */
+
+.hero{
+  text-align:center;
+  padding:120px 20px;
+  background:linear-gradient(135deg,#6366f1,#9333ea);
+}
+
+.hero h1{
+  font-size:48px;
+  margin-bottom:20px;
+}
+
+.hero p{
+  max-width:600px;
+  margin:auto;
+  opacity:0.9;
+  margin-bottom:30px;
+}
+
+button{
+  padding:14px 34px;
+  border:none;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  background:white;
+  color:#4f46e5;
+  transition:0.3s;
+}
+
+button:hover{
+  transform:scale(1.05);
+}
+
+/* Features */
+
+.features{
+  display:flex;
+  gap:30px;
+  justify-content:center;
+  padding:80px 10%;
+  flex-wrap:wrap;
+}
+
+.card{
+  background:#1e293b;
+  padding:30px;
+  border-radius:12px;
+  width:260px;
+  text-align:center;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+}
+
+.card h3{
+  margin-bottom:10px;
+}
+
+/* Footer */
+
+footer{
+  text-align:center;
+  padding:30px;
+  background:#020617;
+  color:#94a3b8;
+}
+`);
+  jsCode = signal(`
+document.getElementById("startBtn").addEventListener("click", function(){
+  alert("Welcome to CodeCanvas 🚀");
+});
+`);
+
   compiledWebOutput = signal('');
   autoRun = signal(true);
   templates: Template[] = [];
@@ -115,9 +264,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       // Load Backend State
       const savedCode = localStorage.getItem('codeByLanguage');
       if (savedCode) {
-        try { Object.assign(initialCode, JSON.parse(savedCode)); } catch (e) {}
+        try { Object.assign(initialCode, JSON.parse(savedCode)); } catch (e) { }
       }
-      
+
       // Load Web State
       const savedWeb = this.storage.loadEditorState();
       if (savedWeb) {
@@ -130,7 +279,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       const savedLang = localStorage.getItem('selectedLanguage');
       const defaultLang = langs.find(l => l.id === savedLang) || langs[0];
       this.selectedLanguage.set(defaultLang);
-      
+
       this.consoleService.startListening();
       if (defaultLang.id === 'web') {
         this.compileWeb();
