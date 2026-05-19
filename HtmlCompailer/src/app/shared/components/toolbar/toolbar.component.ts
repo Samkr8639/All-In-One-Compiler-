@@ -180,21 +180,28 @@ import {
       display: flex;
       align-items: center;
       gap: 5px;
-      padding: 5px 12px;
-      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      background: var(--btn-bg);
+      background: transparent;
       color: var(--text-primary);
       font-size: 0.8rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all var(--transition-fast);
+      transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
       white-space: nowrap;
       height: 32px;
     }
     .action-btn:hover:not(:disabled) {
-      background: var(--btn-hover);
+      background: var(--surface-hover);
       border-color: var(--border-hover);
+    }
+    .action-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .action-btn:active:not(:disabled) {
+      transform: scale(0.97);
     }
     .action-btn:disabled {
       opacity: 0.5;
@@ -204,12 +211,22 @@ import {
     .run-btn {
       background: var(--accent);
       color: #fff;
-      border-color: transparent;
-      font-weight: 600;
+      border: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      height: auto;
     }
     .run-btn:hover:not(:disabled) {
       background: var(--accent-hover);
-      border-color: transparent;
+      transform: scale(1.02);
+      box-shadow: var(--active-glow);
+    }
+    .run-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .run-btn:active:not(:disabled) {
+      transform: scale(0.98);
     }
 
     .chevron {
@@ -237,6 +254,13 @@ import {
     .icon-btn:hover {
       background: var(--btn-hover);
       color: var(--text-primary);
+    }
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .icon-btn:active {
+      transform: scale(0.95);
     }
 
     /* Toggle */
@@ -301,14 +325,14 @@ import {
       max-height: 320px;
       overflow-y: auto;
       background: var(--dropdown-bg);
-      border: 1px solid var(--border-hover);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
       z-index: 300;
       padding: 4px;
       animation: slideDown 0.15s ease-out;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
 
     .dropdown-option {

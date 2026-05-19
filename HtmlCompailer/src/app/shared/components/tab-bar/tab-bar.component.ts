@@ -22,16 +22,16 @@ import { EditorTab } from '../../models/editor-state.model';
   styles: [`
     .tab-bar {
       display: flex; background: var(--editor-header-bg);
-      border-bottom: 1px solid var(--border); flex-shrink: 0;
+      border-bottom: 1px solid var(--border-color); flex-shrink: 0;
     }
     .tab {
       display: flex; align-items: center; gap: 6px;
       padding: 10px 20px; border: none; background: none;
       color: var(--text-secondary); font-size: 0.85rem; font-weight: 500;
       cursor: pointer; border-bottom: 2px solid transparent;
-      transition: all 0.15s ease; position: relative;
+      transition: all var(--transition-fast); position: relative;
     }
-    .tab:hover { color: var(--text-primary); background: var(--btn-hover); }
+    .tab:hover { color: var(--text-primary); background: var(--surface-hover); }
     .tab.active {
       color: var(--text-primary); border-bottom-color: var(--accent);
       background: var(--editor-bg);

@@ -2,7 +2,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MetaService } from '../../core/services/meta.service';
 import { SchemaService } from '../../core/services/schema.service';
-import { LucideAngularModule, Code } from 'lucide-angular';
+import { ThemeService } from '../../core/services/theme.service';
+import { LucideAngularModule, Code, Sun, Moon } from 'lucide-angular';
 
 @Component({
   selector: 'app-features',
@@ -11,10 +12,26 @@ import { LucideAngularModule, Code } from 'lucide-angular';
   template: `
     <div class="page">
       <nav class="page-nav">
-        <a routerLink="/" class="back-link">
-          <lucide-icon [img]="CodeIcon" [size]="16"></lucide-icon>
-          CodeCanvas
-        </a>
+        <div class="nav-container">
+          <a routerLink="/" class="logo">
+            <div class="logo-mark">
+              <lucide-icon [img]="CodeIcon" [size]="18"></lucide-icon>
+            </div>
+            <span class="logo-text">CodeCanvas</span>
+          </a>
+          <div class="nav-right">
+            <div class="nav-links">
+              <a routerLink="/" class="nav-link">Editor</a>
+              <a routerLink="/features" class="nav-link active">Features</a>
+              <a routerLink="/templates" class="nav-link">Templates</a>
+              <a routerLink="/faq" class="nav-link">FAQ</a>
+              <a routerLink="/about" class="nav-link">About</a>
+            </div>
+            <button class="icon-btn theme-toggle" (click)="themeService.toggle()" title="Toggle Theme" id="theme-btn">
+              <lucide-icon [img]="themeService.isDark() ? SunIcon : MoonIcon" [size]="15"></lucide-icon>
+            </button>
+          </div>
+        </div>
       </nav>
       <div class="page-content">
         <div class="breadcrumb">
@@ -45,9 +62,12 @@ import { LucideAngularModule, Code } from 'lucide-angular';
 export class FeaturesComponent implements OnInit {
   private meta = inject(MetaService);
   private schema = inject(SchemaService);
+  themeService = inject(ThemeService);
 
-  // Lucide icon
+  // Lucide icons
   readonly CodeIcon = Code;
+  readonly SunIcon = Sun;
+  readonly MoonIcon = Moon;
 
   features = [
     { icon: 'Zap', title: 'Live Preview', description: 'See your HTML, CSS, and JavaScript changes instantly with real-time preview rendering.' },

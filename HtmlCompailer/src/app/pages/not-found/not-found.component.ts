@@ -31,28 +31,34 @@ import { MetaService } from '../../core/services/meta.service';
     .error-code {
       font-size: 8rem;
       font-weight: 900;
-      background: linear-gradient(135deg, #6366f1, #ec4899);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--accent);
       line-height: 1;
       margin-bottom: 16px;
     }
-    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
-    p { color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 32px; }
+    h1 { font-size: var(--font-size-xxl); font-weight: 700; margin-bottom: 12px; letter-spacing: -0.025em; }
+    p { color: var(--text-secondary); font-size: var(--font-size-lg); margin-bottom: 32px; }
     .cta-btn {
       display: inline-block;
-      padding: 14px 40px;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      padding: 12px 32px;
+      background: var(--accent);
       color: #fff;
       text-decoration: none;
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       font-weight: 600;
-      font-size: 1rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      font-size: var(--font-size-base);
+      transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color var(--transition-fast);
     }
     .cta-btn:hover {
+      background: var(--accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(99,102,241,0.35);
+      box-shadow: var(--active-glow);
+    }
+    .cta-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .cta-btn:active {
+      transform: translateY(0) scale(0.98);
     }
   `],
 })

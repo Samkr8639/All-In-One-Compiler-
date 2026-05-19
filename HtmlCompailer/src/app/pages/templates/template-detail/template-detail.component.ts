@@ -3,16 +3,37 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MetaService } from '../../../core/services/meta.service';
 import { TemplatesService } from '../../../core/services/templates.service';
 import { StorageService } from '../../../core/services/storage.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { Template } from '../../../shared/models/editor-state.model';
+import { LucideAngularModule, Code, Sun, Moon } from 'lucide-angular';
 
 @Component({
   selector: 'app-template-detail',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, LucideAngularModule],
   template: `
     <div class="page">
       <nav class="page-nav">
-        <a routerLink="/" class="back-link"><span>⟨/⟩</span> CodeCanvas</a>
+        <div class="nav-container">
+          <a routerLink="/" class="logo">
+            <div class="logo-mark">
+              <lucide-icon [img]="CodeIcon" [size]="18"></lucide-icon>
+            </div>
+            <span class="logo-text">CodeCanvas</span>
+          </a>
+          <div class="nav-right">
+            <div class="nav-links">
+              <a routerLink="/" class="nav-link">Editor</a>
+              <a routerLink="/features" class="nav-link">Features</a>
+              <a routerLink="/templates" class="nav-link active">Templates</a>
+              <a routerLink="/faq" class="nav-link">FAQ</a>
+              <a routerLink="/about" class="nav-link">About</a>
+            </div>
+            <button class="icon-btn theme-toggle" (click)="themeService.toggle()" title="Toggle Theme" id="theme-btn">
+              <lucide-icon [img]="themeService.isDark() ? SunIcon : MoonIcon" [size]="15"></lucide-icon>
+            </button>
+          </div>
+        </div>
       </nav>
       @if (template) {
         <div class="page-content">
@@ -42,6 +63,10 @@ import { Template } from '../../../shared/models/editor-state.model';
   styleUrl: './template-detail.component.css',
 })
 export class TemplateDetailComponent implements OnInit {
+  readonly CodeIcon = Code;
+  readonly SunIcon = Sun;
+  readonly MoonIcon = Moon;
+  themeService = inject(ThemeService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private meta = inject(MetaService);
